@@ -17,7 +17,8 @@ This is an unsolicited pitch build. Every fact comes from allpro.ie or the compa
   - contact
   - privacy notice (Irish GDPR / Data Protection Act 2018, DPC)
   - photo credits and a site map
-- **Design:** mobile-first, 17px body text, light and dark themes, and every form works without JavaScript.
+- **Design:** taken from allpro.ie itself: its blue (#00799f), a colour for each service line, Lato in heavy capitals, diagonal section edges and a redraw of the APS logo. Mobile-first, 17px body text, light and dark themes, and every form works without JavaScript.
+- **Motion:** a headline entrance, count-up figures, a tagline marquee, a services switcher, a coverage map of the four regions, step guides on the quote and job forms, SLA countdown rings and a sent tick. All of it respects "reduce motion", and nothing is hidden when JavaScript is off.
 - **Redirects:** old WordPress addresses (`/cleaning`, `/security-services` and the rest) redirect to the new pages.
 
 ### Intake flows
@@ -134,7 +135,9 @@ See [INSTALL-HOSTINGER.md](INSTALL-HOSTINGER.md).
 
 ## Proposal
 
-With the dev server on 8114 and demo data loaded, `npm run proposal` captures every screen and builds `dist/proposal/Allpro-Services-Website-Proposal.pdf`. It is A4, and the build fails if it is over 9.5 MB.
+With the dev server on 8114 and demo data loaded, `npm run proposal` captures every screen, captures stills of the motion effects (`scripts/proposal/motion.mjs`) and builds `dist/proposal/Allpro-Services-Website-Proposal.pdf`. It is A4, and the build fails if it is over 9.5 MB.
+
+`VIDEO=path/to/file.mp4 node scripts/proposal/motion.mjs` also records a 23-second home-page video (needs ffmpeg). The motion script sends one sample enquiry to reach the thank-you page, then deletes it.
 
 ## Before launch: confirm with the client
 
@@ -157,10 +160,16 @@ With the dev server on 8114 and demo data loaded, `npm run proposal` captures ev
 
 ### Brand, photos and legal
 
-- **Logo.** The header redraws the teal "APS" pebble and "Allpro services" wordmark from allpro.ie as SVG. Ask for the vector artwork.
-- **Photos.**
-  - The wet-floor cleaning photo is the company's own (allpro.ie, 2016); its use needs Allpro's confirmation.
-  - Every other photo is from Wikimedia Commons, credited on `/photo-credits` and labelled "Illustrative photo". None shows Allpro staff, sites or clients. Replace them with the company's own.
+- **Logo.** `<x-logo>` is an SVG redraw of `wp-content/uploads/2016/04/APS-blue.png` (and the white `APS.png`) from allpro.ie: the #00799e "APS" pebble and the "Allpro / services" wordmark set in Helvetica Neue. It is a stand-in. Ask for the original vector artwork and confirm the brand colours (the site uses the theme blue #00799f, plus darker shades for text contrast).
+- **Brand colours and type.** These are read from the 2016 theme CSS on allpro.ie: Lato, the per-service band colours, the tagline buttons and the #222 footer. Several service colours are darkened so white text passes WCAG AA. Confirm that Allpro is happy with this.
+- **Photos: rights to confirm.**
+  - Three photos come from allpro.ie, and their reuse needs Allpro's confirmation:
+    - `wet-floor`: `uploads/2016/01/AllPorCleaning.jpg`
+    - `aps-dispenser`: `uploads/2015/06/homepage-consumables.jpg`
+    - `aps-corridor`: `uploads/2015/12/allpro2.jpg`
+  - The two 2015 images may be licensed stock photos that came with the old theme. The old site's other images are named `bigstock-…`, which is licensed stock, and were not reused.
+  - Every other photo is from Wikimedia Commons, credited on `/photo-credits` and labelled "Illustrative photo". None shows Allpro staff, sites or clients. Replace them with the company's own photos.
+- **Map.** The home-page map of Ireland is adapted from Wikimedia Commons "Ireland trad counties blank.svg" by Draceane, under CC BY-SA 3.0. It is credited on `/photo-credits` and the adaptation carries the same licence. Region boundaries are drawn per county from the placeholder county-to-region mapping (above), so they are indicative.
 - **Client audit system.** The site links to the existing `audit.allpro.ie` login from the old menu. That host serves a self-signed certificate, so browsers warn. It is outside this build.
 - **Privacy notice and retention periods** need the company's sign-off. As drafted: applications and messages are kept up to 12 months, quote requests that do not become a contract up to 2 years, and service-desk records for the life of the contract plus 6 years. The notice names the DPC.
 - **Not used:** client names, testimonials (the old site has unattributed quotes), contract awards, revenue and staff numbers. None of them appear on the public site.

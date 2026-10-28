@@ -6,13 +6,13 @@
 <x-layouts.site title="Request a quote" description="Request a quote and a site survey from Allpro Services for cleaning, security, facilities management, washroom services, grounds or pest control.">
     <x-page-header title="Request a quote and site survey" kicker="New sites" code="Q-01" photo="pressure-wash"
         lead="Tell us about the site and choose a weekday for a survey. The request goes to the sales owner for the county the site is in, and you get a reference number straight away." />
-    <section class="wrap mt-12 grid gap-12 md:mt-16 lg:grid-cols-[minmax(0,1fr)_19rem]">
+    <section class="wrap mt-12 grid gap-12 md:mt-16 lg:grid-cols-[minmax(0,1fr)_19rem]" x-data="formSteps">
         <form method="POST" action="{{ route('quote.store') }}" enctype="multipart/form-data" class="min-w-0 space-y-10" x-data="sendForm" @submit="submit">
             @csrf
             <x-form-errors />
             <x-honeypot />
             <x-fieldset n="1" title="Services">
-                <x-checks name="services" label="Which services do you need?" :options="collect($services)->mapWithKeys(fn ($s, $k) => [$k => $s['title']])->all()" cols="sm:grid-cols-2" :selected="$chosen" />
+                <x-checks name="services" label="Which services do you need?" :options="collect($services)->mapWithKeys(fn ($s, $k) => [$k => $s['title']])->all()" cols="sm:grid-cols-2" :selected="$chosen" data-need-one />
                 <x-select name="sector" label="Sector" :required="true" :options="(array) allpro('sectors')" />
                 <x-field name="cover" label="What cover do you need?" type="textarea" :optional="true" maxlength="2000" rows="3" hint="For example: daily office clean after 6 pm; a static guard 24/7; monthly washroom service." />
             </x-fieldset>
@@ -69,17 +69,22 @@
             </x-fieldset>
             <div class="border-t border-line pt-6"><x-submit label="Send the request" /></div>
         </form>
-        <aside class="space-y-6">
-            <x-sitecard :light="true" :cols="1" head="What happens next" :fields="['1. Today' => 'Reference number by email', '2. Next' => 'Your regional sales owner confirms the survey', '3. Survey' => 'Walk the site together', '4. After' => 'A costed proposal']" />
+        <aside>
+            <div class="space-y-6 lg:sticky lg:top-24">
+                <x-form-steps title="Your request" :steps="[1 => 'Services', 2 => 'The site', 3 => 'Site survey', 4 => 'Your details']" />
+                <x-sitecard :light="true" :cols="1" head="What happens next" :fields="['1. Today' => 'Reference number by email', '2. Next' => 'Your regional sales owner confirms the survey', '3. Survey' => 'Walk the site together', '4. After' => 'A costed proposal']" />
+            </div>
+        </aside>
+        <div class="grid gap-6 sm:grid-cols-2 lg:col-span-2">
             <div class="panel p-5">
-                <p class="font-semibold">Already a client?</p>
+                <p class="font-bold">Already a client?</p>
                 <p class="mt-1 text-ink-2">Log requests and complaints on your site's service-desk link.</p>
                 <a href="{{ route('clients') }}" class="btn btn-outline btn-sm mt-4">Client service desk</a>
             </div>
             <div class="panel p-5">
-                <p class="font-semibold">Rather talk it through?</p>
-                <a href="{{ tel_href(allpro('phone')) }}" class="mt-2 inline-flex min-h-11 items-center font-display text-xl font-bold text-link">{{ format_phone(allpro('phone')) }}</a>
+                <p class="font-bold">Rather talk it through?</p>
+                <a href="{{ tel_href(allpro('phone')) }}" class="mt-2 inline-flex min-h-11 items-center text-xl font-black text-link">{{ format_phone(allpro('phone')) }}</a>
             </div>
-        </aside>
+        </div>
     </section>
 </x-layouts.site>

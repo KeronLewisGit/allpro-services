@@ -1,16 +1,18 @@
-@props(['tone' => 'dark', 'small' => false])
+@props(['tone' => 'dark', 'small' => false, 'draw' => false])
 {{--
-    Redrawn as vector from the company's own mark on allpro.ie (2016): a tilted teal-blue
-    pebble with "APS" reversed out in white, beside the "Allpro services" wordmark. A stand-in
-    until Allpro supplies the original artwork (README, "Before launch").
+    Vector redraw of the logo on allpro.ie (wp-content/uploads/2016/04/APS-blue.png and the white
+    APS.png): the #00799e "APS" pebble, rounded and rising to the right, with upright reversed
+    lettering, beside the "Allpro / services" wordmark in a Helvetica-style grotesque. A stand-in
+    until Allpro supplies the original artwork (README, "Before launch"). draw = the pebble
+    traces its outline on first paint (motion allowed only).
 --}}
-<span {{ $attributes->merge(['class' => 'inline-flex items-center gap-2.5']) }}>
-    <svg viewBox="0 0 120 66" @class(['flex-none', 'h-9 w-[3.3rem]' => $small, 'h-11 w-[4.1rem]' => ! $small]) aria-hidden="true">
-        <path d="M6 46C2 36 30 14 70 5c25-5 42-5 44 9 3 20-16 42-48 47-30 5-56-3-60-15z" fill="#00799e" @if($tone === 'light') stroke="#ffffff" stroke-opacity=".55" stroke-width="2" @endif/>
-        <text x="60" y="45" text-anchor="middle" transform="rotate(-9 60 38)" font-family="'Encode Sans Semi Condensed', ui-sans-serif, sans-serif" font-weight="800" font-size="27" letter-spacing=".5" fill="#ffffff">APS</text>
+<span {{ $attributes->merge(['class' => 'inline-flex items-center gap-2']) }}>
+    <svg viewBox="0 0 100 62" @class(['flex-none', 'mark-draw' => $draw, 'h-9 w-[3.6rem]' => $small, 'h-11 w-[4.45rem]' => ! $small, 'text-white' => $tone === 'light', 'text-[var(--logo)]' => $tone !== 'light']) aria-hidden="true">
+        <path class="pebble" d="M4.5 42.5C1 35 6 28.5 15 25.2L78.5 2.6C89.5-1.3 96.8 3.4 97.6 14.5l1.2 22.6c.6 12.5-6.4 21.4-19.2 22.3L22.5 61.5C12.8 62.2 7.7 49.2 4.5 42.5Z" fill="currentColor" />
+        <text class="aps" x="51" y="45" text-anchor="middle" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="700" font-size="25" letter-spacing="-1.4" fill="{{ $tone === 'light' ? '#00799e' : '#ffffff' }}">APS</text>
     </svg>
-    <span class="leading-none">
-        <span @class(['block font-display font-extrabold tracking-tight', 'text-[1.2rem]' => $small, 'text-[1.45rem]' => ! $small, 'text-white' => $tone === 'light', 'text-primary' => $tone !== 'light'])>Allpro</span>
-        <span @class(['block font-sans font-medium tracking-[0.02em]', 'text-[0.85rem]' => $small, 'text-[0.95rem]' => ! $small, 'text-white/80' => $tone === 'light', 'text-ink-2' => $tone !== 'light'])>services</span>
+    <span class="leading-[0.95]" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif">
+        <span @class(['block font-bold tracking-[-0.02em]', 'text-[1.3rem]' => $small, 'text-[1.6rem]' => ! $small, 'text-white' => $tone === 'light', 'text-[var(--logo)]' => $tone !== 'light'])>Allpro</span>
+        <span @class(['block font-normal tracking-[0.01em]', 'text-[1.02rem]' => $small, 'text-[1.22rem]' => ! $small, 'text-white' => $tone === 'light', 'text-[var(--logo)]' => $tone !== 'light'])>services</span>
     </span>
 </span>

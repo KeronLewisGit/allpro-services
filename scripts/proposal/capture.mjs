@@ -121,7 +121,7 @@ function packBlocks(blocks, maxH, docH) {
   // swallow a tiny trailing sliver (e.g. a thin footer strip) into the previous group when it fits
   if (groups.length > 1) {
     const last = groups[groups.length - 1], prev = groups[groups.length - 2];
-    if (last.bottom - last.top < maxH * 0.15 && last.bottom - prev.top <= maxH * 1.05) { prev.bottom = last.bottom; prev.labels = [...new Set([...prev.labels, ...last.labels])]; groups.pop(); }
+    if (last.bottom - last.top < maxH * 0.15 && last.bottom - prev.top <= maxH * 1.12) { prev.bottom = last.bottom; prev.labels = [...new Set([...prev.labels, ...last.labels])]; groups.pop(); }
   }
   groups[groups.length - 1].bottom = Math.min(groups[groups.length - 1].bottom, docH);
   return groups;

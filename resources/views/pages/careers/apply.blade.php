@@ -7,8 +7,8 @@
 <x-layouts.site title="Apply" description="Apply to work with Allpro Services as a cleaning operative, security officer or supervisor in Galway, Dublin, Limerick or Cork.">
     <x-page-header :title="$selected ? 'Apply: '.str_replace(' (sample)', '', $selected->title) : 'Apply to work with us'" kicker="Careers" code="C-03" photo="scrubber-school"
         lead="It takes about three minutes and you don't need a CV. Security roles need a current PSA licence." />
-    <section class="wrap mt-12 max-w-3xl md:mt-16">
-        <div x-data="{ role: @js($roleOld), roles: @js($jobRoles), pick(id) { if (this.roles[id]) this.role = this.roles[id] } }">
+    <section class="wrap mt-12 grid gap-10 md:mt-16 lg:grid-cols-[minmax(0,1fr)_17rem] lg:gap-14" x-data="formSteps">
+        <div class="min-w-0 max-w-3xl" x-data="{ role: @js($roleOld), roles: @js($jobRoles), pick(id) { if (this.roles[id]) this.role = this.roles[id] } }">
         <form method="POST" action="{{ route('careers.store') }}" enctype="multipart/form-data" class="space-y-10" x-data="sendForm" @submit="submit">
             @csrf
             <x-form-errors />
@@ -26,7 +26,7 @@
                 <div>
                     <p class="label" id="avail-label">Shifts you can work</p>
                     <p class="hint -mt-1 mb-3">Tick every shift you could do. We match you to sites with those hours.</p>
-                    <x-availability />
+                    <x-availability data-need-one />
                     <x-error for="availability" />
                 </div>
                 <div class="grid gap-5 sm:grid-cols-2">
@@ -76,5 +76,8 @@
             <div class="border-t border-line pt-6"><x-submit label="Send my application" /></div>
         </form>
         </div>
+        <aside class="order-first lg:order-none">
+            <x-form-steps class="lg:sticky lg:top-24" title="Your application" :steps="[1 => 'The work', 2 => 'PSA licence', 3 => 'About you', 4 => 'CV and message']" />
+        </aside>
     </section>
 </x-layouts.site>

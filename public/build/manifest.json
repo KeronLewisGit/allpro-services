@@ -1,82 +1,43 @@
 {
-  "_encode-sans-semi-condensed-600-normal-DCMM15q9.woff": {
-    "file": "assets/encode-sans-semi-condensed-600-normal-DCMM15q9.woff",
-    "src": "_encode-sans-semi-condensed-600-normal-DCMM15q9.woff"
+  "_fonts-C2BEGCkQ.css": {
+    "file": "assets/fonts-C2BEGCkQ.css",
+    "src": "_fonts-C2BEGCkQ.css"
   },
-  "_encode-sans-semi-condensed-600-normal-_hOeqlqi.woff2": {
-    "file": "assets/encode-sans-semi-condensed-600-normal-_hOeqlqi.woff2",
-    "src": "_encode-sans-semi-condensed-600-normal-_hOeqlqi.woff2"
+  "_lato-400-normal-B11PyLys.woff": {
+    "file": "assets/lato-400-normal-B11PyLys.woff",
+    "src": "_lato-400-normal-B11PyLys.woff"
   },
-  "_encode-sans-semi-condensed-700-normal-CkwpN0SF.woff2": {
-    "file": "assets/encode-sans-semi-condensed-700-normal-CkwpN0SF.woff2",
-    "src": "_encode-sans-semi-condensed-700-normal-CkwpN0SF.woff2"
+  "_lato-400-normal-BEhtfm5r.woff2": {
+    "file": "assets/lato-400-normal-BEhtfm5r.woff2",
+    "src": "_lato-400-normal-BEhtfm5r.woff2"
   },
-  "_encode-sans-semi-condensed-700-normal-DSi73cAp.woff": {
-    "file": "assets/encode-sans-semi-condensed-700-normal-DSi73cAp.woff",
-    "src": "_encode-sans-semi-condensed-700-normal-DSi73cAp.woff"
+  "_lato-700-normal-BUGMgin4.woff2": {
+    "file": "assets/lato-700-normal-BUGMgin4.woff2",
+    "src": "_lato-700-normal-BUGMgin4.woff2"
   },
-  "_encode-sans-semi-condensed-800-normal-WZ0Uc53D.woff2": {
-    "file": "assets/encode-sans-semi-condensed-800-normal-WZ0Uc53D.woff2",
-    "src": "_encode-sans-semi-condensed-800-normal-WZ0Uc53D.woff2"
+  "_lato-700-normal-DAdL7O4w.woff": {
+    "file": "assets/lato-700-normal-DAdL7O4w.woff",
+    "src": "_lato-700-normal-DAdL7O4w.woff"
   },
-  "_encode-sans-semi-condensed-800-normal-Yz42ZJ9Y.woff": {
-    "file": "assets/encode-sans-semi-condensed-800-normal-Yz42ZJ9Y.woff",
-    "src": "_encode-sans-semi-condensed-800-normal-Yz42ZJ9Y.woff"
+  "_lato-900-normal-C3uaq3BA.woff2": {
+    "file": "assets/lato-900-normal-C3uaq3BA.woff2",
+    "src": "_lato-900-normal-C3uaq3BA.woff2"
   },
-  "_fonts-CItXPxA8.css": {
-    "file": "assets/fonts-CItXPxA8.css",
-    "src": "_fonts-CItXPxA8.css"
-  },
-  "_rethink-sans-400-normal-C2CrhZJ2.woff2": {
-    "file": "assets/rethink-sans-400-normal-C2CrhZJ2.woff2",
-    "src": "_rethink-sans-400-normal-C2CrhZJ2.woff2"
-  },
-  "_rethink-sans-400-normal-GBpUDrx9.woff": {
-    "file": "assets/rethink-sans-400-normal-GBpUDrx9.woff",
-    "src": "_rethink-sans-400-normal-GBpUDrx9.woff"
-  },
-  "_rethink-sans-500-normal-CZnVlKuG.woff2": {
-    "file": "assets/rethink-sans-500-normal-CZnVlKuG.woff2",
-    "src": "_rethink-sans-500-normal-CZnVlKuG.woff2"
-  },
-  "_rethink-sans-500-normal-gm3zvsp9.woff": {
-    "file": "assets/rethink-sans-500-normal-gm3zvsp9.woff",
-    "src": "_rethink-sans-500-normal-gm3zvsp9.woff"
-  },
-  "_rethink-sans-600-normal-BBmnB1wa.woff2": {
-    "file": "assets/rethink-sans-600-normal-BBmnB1wa.woff2",
-    "src": "_rethink-sans-600-normal-BBmnB1wa.woff2"
-  },
-  "_rethink-sans-600-normal-DGDvRYts.woff": {
-    "file": "assets/rethink-sans-600-normal-DGDvRYts.woff",
-    "src": "_rethink-sans-600-normal-DGDvRYts.woff"
-  },
-  "_rethink-sans-700-normal-DqfDD8gS.woff2": {
-    "file": "assets/rethink-sans-700-normal-DqfDD8gS.woff2",
-    "src": "_rethink-sans-700-normal-DqfDD8gS.woff2"
-  },
-  "_rethink-sans-700-normal-fkb_AID4.woff": {
-    "file": "assets/rethink-sans-700-normal-fkb_AID4.woff",
-    "src": "_rethink-sans-700-normal-fkb_AID4.woff"
+  "_lato-900-normal-CZBfLiEO.woff": {
+    "file": "assets/lato-900-normal-CZBfLiEO.woff",
+    "src": "_lato-900-normal-CZBfLiEO.woff"
   },
   "resources/css/app.css": {
-    "file": "assets/app-gQwkXy2z.css",
+    "file": "assets/app-DYuH5MpK.css",
     "name": "app",
     "names": [
       "app.css"
     ],
     "src": "resources/css/app.css",
-    "isEntry": true,
-    "assets": [
-      "assets/siteplan-D6qsLZBq.svg"
-    ]
-  },
-  "resources/img/siteplan.svg": {
-    "file": "assets/siteplan-D6qsLZBq.svg",
-    "src": "resources/img/siteplan.svg"
+    "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-C5fUE6h8.js",
+    "file": "assets/app-DiJlDy8l.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true

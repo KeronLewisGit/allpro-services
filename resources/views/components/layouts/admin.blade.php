@@ -54,7 +54,7 @@
                 @foreach ($visible as [$label, $route, $match, $icon, $badge])
                     <a href="{{ route($route) }}" @if(request()->routeIs($match)) aria-current="page" @endif>
                         <x-icon :name="$icon" class="h-[18px] w-[18px]" />{{ $label }}
-                        @if ($badge)<span class="num ml-auto rounded-full bg-hivis px-2 py-0.5 text-xs font-bold text-deep-950">{{ $badge }}</span>@endif
+                        @if ($badge)<span class="num ml-auto rounded-full bg-accent px-2 py-0.5 text-xs font-bold text-white">{{ $badge }}</span>@endif
                     </a>
                 @endforeach
                 </div>

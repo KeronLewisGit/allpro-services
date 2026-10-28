@@ -26,7 +26,7 @@
                 @endforeach
             </div>
         @endif
-        <div class="hivis thin" aria-hidden="true"></div>
+        <div class="spectrum thin" aria-hidden="true"></div>
     </section>
 
     <div @class(['mt-6 grid gap-4 sm:grid-cols-2', 'xl:grid-cols-4' => count($tiles) >= 4, 'xl:grid-cols-3' => count($tiles) === 3])>

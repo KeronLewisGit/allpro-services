@@ -34,10 +34,10 @@ class PublicSiteTest extends TestCase
             if (in_array($url, ['/', '/login'], true)) {
                 continue;
             }
-            $this->get($url)->assertSee('class="hivis"', false)->assertSee('class="sitecard', false)->assertSee('class="lanyard', false);
+            $this->get($url)->assertSee('class="cut"', false)->assertSee('class="sitecard', false)->assertSee('class="lanyard', false);
         }
         // The home hero is a variant of the same band.
-        $this->get('/')->assertSee('class="hivis"', false)->assertSee('class="sitecard', false);
+        $this->get('/')->assertSee('class="cut"', false)->assertSee('class="sitecard', false);
     }
 
     public function test_the_real_contact_details_are_on_every_page(): void

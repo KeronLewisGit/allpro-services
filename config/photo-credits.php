@@ -2,8 +2,9 @@
 
 /*
 | Every photo on the site, keyed like config('allpro.photos'). Shown on /photo-credits.
-| Licences were checked on each Wikimedia Commons file page on 27 October 2026. "wet-floor" is
-| the company's own photo (allpro.ie, 2016): its use needs Allpro's confirmation. Every other
+| Licences were checked on each Wikimedia Commons file page on 27 October 2026. "wet-floor",
+| "aps-dispenser" and "aps-corridor" come from allpro.ie (2015-16): their use needs Allpro's
+| confirmation (they may be licensed stock). Every other
 | photo is from Wikimedia Commons and only illustrates the kind of work: none shows Allpro staff,
 | sites or clients. Replace them with the company's own photographs before launch.
 */
@@ -99,15 +100,25 @@ return [
         'changes' => 'Resized, cropped and converted to WebP.',
         'used_for' => 'Facilities management; About',
     ],
-    'washroom' => [
-        'title' => 'Accessible Washroom on the VIA Rail Train',
-        'author' => 'Gogerr',
-        'licence' => 'CC BY-SA 4.0',
-        'licence_url' => 'https://creativecommons.org/licenses/by-sa/4.0',
-        'source' => 'Wikimedia Commons',
-        'url' => 'https://commons.wikimedia.org/wiki/File:Accessible_Washroom_on_the_VIA_Rail_Train.jpg',
-        'changes' => 'Resized, cropped and converted to WebP.',
+    'aps-dispenser' => [
+        'title' => 'Soap dispenser, blue-toned',
+        'author' => 'Allpro Services',
+        'licence' => 'Allpro Services (use to be confirmed)',
+        'licence_url' => null,
+        'source' => 'allpro.ie (2015)',
+        'url' => 'http://allpro.ie/wp-content/uploads/2015/06/homepage-consumables.jpg',
+        'changes' => 'Resized and converted to WebP; shown in greyscale under a brand-colour wash.',
         'used_for' => 'Washroom and sanitary services',
+    ],
+    'aps-corridor' => [
+        'title' => 'Cleaner with a floor machine in a corridor, blue-toned',
+        'author' => 'Allpro Services',
+        'licence' => 'Allpro Services (use to be confirmed)',
+        'licence_url' => null,
+        'source' => 'allpro.ie (2015)',
+        'url' => 'http://allpro.ie/wp-content/uploads/2015/12/allpro2.jpg',
+        'changes' => 'Resized and converted to WebP; shown in greyscale under a brand-colour wash.',
+        'used_for' => 'Home page, regions band',
     ],
     'oranmore' => [
         'title' => 'OranmoreCastle CountyGalway',

@@ -119,7 +119,7 @@ return [
             'title' => 'Washroom and sanitary services',
             'tagline' => 'Optimum cleaning',
             'icon' => 'droplet',
-            'photo' => 'washroom',
+            'photo' => 'aps-dispenser',
             'summary' => 'Washroom deep cleans with specialist chemicals that remove the dirt and grime everyday cleaning leaves behind, and the units that keep a washroom fresh between visits.',
             'items' => ['Washroom deep cleans', 'Feminine hygiene disposal units', 'Air care and ozone units', 'Water filtration and sanitiser systems', 'Toilet seat sanitisers', 'Hand drying systems'],
         ],
@@ -184,7 +184,8 @@ return [
         'hedge' => ['w' => 1920, 'h' => 1440],
         'pressure-wash' => ['w' => 1920, 'h' => 1280],
         'business-park' => ['w' => 1920, 'h' => 1437],
-        'washroom' => ['w' => 1920, 'h' => 1440],
+        'aps-dispenser' => ['w' => 1920, 'h' => 1508],
+        'aps-corridor' => ['w' => 1920, 'h' => 1281],
         'oranmore' => ['w' => 1920, 'h' => 1440],
         'galway' => ['w' => 1920, 'h' => 1440],
         'limerick' => ['w' => 1920, 'h' => 1440],
@@ -192,8 +193,9 @@ return [
         'dublin' => ['w' => 1920, 'h' => 1280],
         'scrubber-school' => ['w' => 1920, 'h' => 1440],
     ],
-    // The company's own photographs (allpro.ie, 2016). Every other photo is illustrative.
-    'own_photos' => ['wet-floor'],
+    // Photographs taken from allpro.ie (2015-16), used first because they are the company's own
+    // imagery. Rights to confirm before launch (README). Every other photo is illustrative.
+    'own_photos' => ['wet-floor', 'aps-dispenser', 'aps-corridor'],
     'og_photo' => 'scrubber',
 
     // Pages on the old WordPress site that directories and bookmarks still link to.

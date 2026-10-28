@@ -8,7 +8,7 @@
 <x-layouts.site :title="$job->title" :description="$job->summary" :json-ld="[$ld]">
     <x-page-header :title="$job->title" :kicker="$job->role_type->label()" :code="$job->region->code()" :photo="$job->role_type->needsPsa() ? 'guard-dusk' : 'scrubber-school'" :lead="$job->summary"
         card-head="Job card" :card="['Region' => $job->region->label(), 'Openings' => (string) $job->openings, '*Hours' => $job->hours ?: $job->employment_type->label(), '*Closes' => $job->closes_on?->format('j F Y') ?? 'Open until filled']">
-        <div class="mt-6 flex flex-wrap gap-3"><a href="{{ route('careers.apply', ['job' => $job->slug]) }}" class="btn btn-hivis">Apply for this job<x-icon name="arrow-right" class="nudge h-4 w-4" /></a><a href="{{ route('careers.index') }}" class="btn btn-on-dark">All openings</a></div>
+        <div class="mt-6 flex flex-wrap gap-3"><a href="{{ route('careers.apply', ['job' => $job->slug]) }}" class="btn btn-light">Apply for this job<x-icon name="arrow-right" class="nudge h-4 w-4" /></a><a href="{{ route('careers.index') }}" class="btn btn-on-dark">All openings</a></div>
     </x-page-header>
     <section class="wrap mt-12 grid gap-12 md:mt-16 lg:grid-cols-2">
         @if ($job->dutyList())

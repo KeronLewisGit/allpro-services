@@ -1,5 +1,5 @@
 // Builds the client proposal (A4 PDF) from the captured screenshots, in the site's own palette and
-// fonts (deep teal, Allpro blue and hi-vis yellow; Encode Sans Semi Condensed and Rethink Sans).
+// type, which follow allpro.ie: Allpro blue #00799f, the service colour bands, Lato in heavy capitals.
 // Usage: npm run proposal (or node scripts/proposal/build.mjs after a capture).
 import puppeteer from 'puppeteer-core';
 import fs from 'node:fs';
@@ -25,30 +25,29 @@ const font = (prefix) => {
   return 'file://' + path.join(ASSETS, f);
 };
 const FONTS = [
-  ['Encode Sans Semi Condensed', 700, 'encode-sans-semi-condensed-700-normal'], ['Encode Sans Semi Condensed', 800, 'encode-sans-semi-condensed-800-normal'],
-  ['Rethink Sans', 400, 'rethink-sans-400-normal'], ['Rethink Sans', 500, 'rethink-sans-500-normal'],
-  ['Rethink Sans', 600, 'rethink-sans-600-normal'], ['Rethink Sans', 700, 'rethink-sans-700-normal'],
+  ['Lato', 400, 'lato-400-normal'], ['Lato', 700, 'lato-700-normal'], ['Lato', 900, 'lato-900-normal'],
 ].map(([fam, w, p]) => `@font-face { font-family: "${fam}"; font-weight: ${w}; font-style: normal; src: url("${font(p)}") format("woff2"); }`).join('\n');
 
-// The site's redrawn APS pebble (after the mark on the 2016 allpro.ie).
-const MARK = (h = 34, ring = false) => `<span class="mark"><svg viewBox="0 0 120 66" height="${h}" width="${Math.round(h * 120 / 66)}"><path d="M6 46C2 36 30 14 70 5c25-5 42-5 44 9 3 20-16 42-48 47-30 5-56-3-60-15z" fill="#00799e"${ring ? ' stroke="#ffffff" stroke-opacity=".55" stroke-width="2"' : ''}/><text x="60" y="45" text-anchor="middle" transform="rotate(-9 60 38)" font-family="Encode Sans Semi Condensed" font-weight="800" font-size="27" fill="#ffffff">APS</text></svg></span>`;
-const WORDMARK = (dark = true) => `<div class="brand">${MARK(dark ? 40 : 30, dark)}<div><span class="n ${dark ? '' : 'ink'}">Allpro</span><span class="s ${dark ? '' : 'ink'}">services · Oranmore, Co. Galway · Since 2002</span></div></div>`;
+// The site's redraw of the APS pebble and wordmark (resources/views/components/logo.blade.php).
+const MARK = (h = 34, light = false) => `<span class="mark"><svg viewBox="0 0 100 62" height="${h}" width="${Math.round(h * 100 / 62)}"><path d="M4.5 42.5C1 35 6 28.5 15 25.2L78.5 2.6C89.5-1.3 96.8 3.4 97.6 14.5l1.2 22.6c.6 12.5-6.4 21.4-19.2 22.3L22.5 61.5C12.8 62.2 7.7 49.2 4.5 42.5Z" fill="${light ? '#ffffff' : '#00799e'}"/><text x="51" y="45" text-anchor="middle" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="700" font-size="25" letter-spacing="-1.4" fill="${light ? '#00799e' : '#ffffff'}">APS</text></svg></span>`;
+const WORDMARK = (dark = true) => `<div class="brand">${MARK(dark ? 40 : 30, dark)}<div><span class="n ${dark ? '' : 'ink'}">Allpro</span><span class="w ${dark ? '' : 'ink'}">services</span><span class="s ${dark ? '' : 'ink'}">Oranmore, Co. Galway · Since 2002</span></div></div>`;
 // Lanyard-tag label, as on the site.
 const plate = (code, label, dark = false) => `<p class="plate ${dark ? 'dark' : ''}"><span class="c">${esc(code)}</span><span class="l">${esc(label)}</span></p>`;
 
 /** Hand-written captions per slice (key = screen name, index = slice number), from what each slice shows. */
 const CAPTIONS = {
   home: [
-    'Hero with the company\'s own description of what it does, the two actions most visitors need (request a quote or site survey; log a request as an existing client) and a site-pass card with the head office, helpdesk number and email. Below it, three ways in: new sites, clients and jobs.',
-    'One contract for everything a building needs: the eight service lines from allpro.ie, then the company\'s mission statement in its own words beside its own photograph.',
-    'The four regional bases, each with its own sales owner, and how a quote works from first call to first shift.',
-    'Contact strip and the footer, with the company registration number.',
+    'Hero in the style of the old allpro.ie slider: a photograph washed in the facilities purple, the company\'s own line "from the inside to the outside", and the two actions most visitors need. Below: founding year, offices and service lines (all from allpro.ie), the old site\'s service taglines, and three ways in for new sites, clients and job seekers.',
+    'One contract for everything a building needs: a switcher across the eight service lines, each in its colour from the old home page.',
+    'The company\'s mission statement in its own words, beside a photograph from its own website.',
+    'The four regional offices on a map of Ireland, with the counties each one covers.',
+    'How a quote works from first call to first shift, the helpdesk details, and the footer with the company registration number.',
   ],
   services: [
-    'Services: every line from the old site with its list of what is covered, starting with facilities management and contract cleaning.',
-    'Security, industrial and maintenance, and washroom and sanitary services.',
-    'Consumables, landscaping and pest control, then the sectors the old site lists.',
-    'Closing call to action: request a quote or a site survey.',
+    'Services: one colour band per service line, as on the old home page, each with its tagline, what is covered and a quote button. Facilities management and contract cleaning.',
+    'Security services, and industrial and maintenance work.',
+    'Washroom and sanitary services, consumables, and landscaping and grounds maintenance.',
+    'Pest control, the sectors the old site lists, and a closing call to request a quote or site survey.',
   ],
   about: ['About: established in 2002 as a contract cleaning company, the mission and vision in the company\'s own words, and the four regional bases.'],
   contact: ['Contact: the helpdesk number and email, the Oranmore head office with directions, and a message form that works without JavaScript and issues an EN- reference.'],
@@ -104,7 +103,7 @@ const CAPTIONS = {
 
 /** Screen definitions: section, key, title, bullets. */
 const SECTIONS = [
-  { id: 'public', eyebrow: 'Part 1', code: '01', title: 'The public website', intro: 'A new allpro.ie on HTTPS, written from the company\'s own website and its company record. Every inner page opens with the same deep-teal header and site-pass card, and every page works on a phone.', screens: [
+  { id: 'public', eyebrow: 'Part 1', code: '01', title: 'The public website', intro: 'A new allpro.ie on HTTPS, written from the company\'s own website and its company record. It takes its colours, type and logo from the current site: Allpro blue, a colour for each service, and the APS pebble, with headers that cut diagonally into the page. Every page works on a phone.', screens: [
     ['home', 'Home page', ['Leads with what Allpro does, a quote or survey request, and the helpdesk.', 'No broken widgets, no "© 2016", and every form works without JavaScript.']],
     ['services', 'Services', ['Eight service lines with the lists the current site publishes.', 'Old addresses such as /cleaning and /security-services redirect to the new pages.']],
     ['about', 'About', ['The 2002 story, the mission and the vision in the company\'s own words.']],
@@ -134,6 +133,10 @@ const SECTIONS = [
     ['admin-users', 'Staff and roles', ['Add staff, set roles and regions, and switch accounts off.']],
   ]},
 ];
+// Stills of the motion layer (scripts/proposal/motion.mjs), if captured.
+const MOTION_JSON = path.join(SHOTS, 'motion/motion.json');
+const MOTION = fs.existsSync(MOTION_JSON) ? Object.fromEntries(JSON.parse(fs.readFileSync(MOTION_JSON, 'utf8')).map((m) => [m.name, m])) : {};
+const MOTION_ORDER = ['hero', 'switcher', 'map', 'steps', 'sla', 'thanks'].filter((k) => MOTION[k]);
 const SCREEN_COUNT = SECTIONS.reduce((n, s) => n + s.screens.length, 0);
 
 const FEATURES = [
@@ -221,55 +224,59 @@ const html = `<!doctype html><html lang="en-IE"><head><meta charset="utf-8"><tit
 <style>
   ${FONTS}
   @page { size: A4; margin: 0.5in 0.6in 0.55in; }
-  :root { --deep: #072b37; --deep-950: #041d26; --bg: #f2f6f7; --surface-2: #e6eef0; --ink: #0b2530; --ink-2: #2f4a55; --ink-3: #4f6670; --line: #d3dfe3; --hivis: #d7f23c; --primary: #00799e; --primary-text: #006a8b; --primary-soft: #dcf0f6; }
+  :root { --deep: #006c92; --deep-950: #0b2f40; --charcoal: #222222; --bg: #f4f7f9; --surface-2: #e9eff3; --ink: #1c2733; --ink-2: #3a4856; --ink-3: #566575; --line: #d6dee5; --accent: #a91d4d; --primary: #00799f; --primary-text: #006c92; --primary-soft: #e0f1f7; --spectrum: linear-gradient(90deg, #6b1a9a 0 12.5%, #005b7b 12.5% 25%, #1d4684 25% 37.5%, #b8352f 37.5% 50%, #a91d4d 50% 62.5%, #00718a 62.5% 75%, #1b7260 75% 87.5%, #4c5d70 87.5%); }
   * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; font-family: "Rethink Sans", system-ui, sans-serif; color: var(--ink); font-size: 10.5pt; line-height: 1.45; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  h1, h2, h3, .display { font-family: "Encode Sans Semi Condensed", system-ui, sans-serif; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); margin: 0; line-height: 1.05; }
-  h3 { font-family: "Rethink Sans", system-ui, sans-serif; font-weight: 700; letter-spacing: 0; font-size: 12pt; }
+  html, body { margin: 0; padding: 0; font-family: "Lato", system-ui, sans-serif; color: var(--ink); font-size: 10.5pt; line-height: 1.45; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  h1, h2, h3, .display { font-family: "Lato", system-ui, sans-serif; font-weight: 900; letter-spacing: 0.005em; color: var(--ink); margin: 0; line-height: 1.05; }
+  h1, h2 { text-transform: uppercase; }
+  h3 { font-family: "Lato", system-ui, sans-serif; font-weight: 900; letter-spacing: 0; font-size: 12pt; }
   .page { page-break-after: always; break-after: page; height: 10.6in; display: flex; flex-direction: column; overflow: hidden; }
   .page:last-child { page-break-after: auto; }
   .eyebrow { font-size: 8pt; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--primary-text); margin: 0 0 5px; }
   .muted { color: var(--ink-3); }
   /* lanyard-tag label, as on the site */
-  .plate { align-self: flex-start; display: inline-flex; border: 1.5px solid currentColor; border-radius: 8px; padding: 2px; font-size: 7.5pt; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; line-height: 1; color: var(--ink-2); margin: 0 0 12px; }
-  .plate span { display: inline-flex; align-items: center; padding: 5px 8px 4px; border-radius: 6px; }
-  .plate .c { background: var(--ink); color: var(--bg); font-family: "Encode Sans Semi Condensed"; font-weight: 800; letter-spacing: .04em; }
-  .plate .l { margin-left: 2px; }
-  .plate.dark { color: rgba(255,255,255,.85); } .plate.dark .c { background: var(--hivis); color: var(--deep-950); }
-  /* hi-vis band: the reflective stripe that closes every page header on the site */
-  .hivis { height: 10px; background: linear-gradient(var(--hivis), var(--hivis)) top / 100% 6px no-repeat, linear-gradient(#c9d1d4, #c9d1d4) bottom / 100% 2px no-repeat; }
+  .plate { align-self: flex-start; display: inline-flex; flex-direction: row-reverse; justify-content: flex-end; align-items: center; gap: 8px; position: relative; padding-top: 12px; border: 0; font-size: 7.5pt; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; line-height: 1; color: var(--ink-2); margin: 0 0 12px; }
+  .plate::before { content: ''; position: absolute; left: 0; top: 0; width: 0.5in; height: 3px; background: currentColor; }
+  .plate span { display: inline-flex; align-items: center; padding: 3px 5px 2px; border-radius: 2px; }
+  .plate .l { padding: 0; }
+  .plate .c { background: var(--primary-text); color: #fff; font-family: "Lato"; font-weight: 900; letter-spacing: .04em; }
+  .plate.dark { color: #fff; } .plate.dark .c { background: #fff; color: var(--deep); }
+  .plate { color: var(--primary-text); }
+  /* the service-colour spectrum that tops the site footer */
+  .spectrum { height: 8px; background: var(--spectrum); }
   .dark-page { background: var(--deep); color: #fff; padding: 0.6in 0.6in 0.5in; position: relative; overflow: hidden; }
   .dark-page h1 { color: #fff; }
-  .cover { justify-content: space-between; background-image: linear-gradient(180deg, rgba(4,29,38,.55), rgba(4,29,38,.96) 60%), url("${img(path.join(ROOT, 'public/img/scrubber-1920.webp'))}"); background-size: cover; background-position: 50% 0; }
+  .cover { justify-content: space-between; background-image: linear-gradient(180deg, rgba(0,89,122,.82), rgba(0,74,101,.97) 62%), url("${img(path.join(ROOT, 'public/img/scrubber-1920.webp'))}"); background-size: cover; background-position: 50% 0; }
   .cover h1 { font-size: 40pt; margin: 14px 0 16px; max-width: 6.2in; }
-  .cover .accent { color: var(--hivis); }
+  .cover .accent { color: #bfe8f6; }
   .cover .lead { color: rgba(255,255,255,.86); font-size: 13pt; max-width: 5.8in; margin: 0; }
   .cover .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; border-top: 1px solid rgba(255,255,255,.2); padding-top: 16px; font-size: 9.5pt; color: rgba(255,255,255,.82); }
   .cover .meta b { display: block; color: #fff; font-size: 9pt; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 4px; }
   .cover .photo-note { position: absolute; right: 0.6in; top: 0.6in; font-size: 7pt; color: rgba(255,255,255,.6); }
-  .brand { display: flex; align-items: center; gap: 10px; } .brand .n { display: block; font-family: "Encode Sans Semi Condensed"; font-weight: 800; font-size: 19pt; color: #fff; line-height: 1; letter-spacing: -0.02em; } .brand .s { display: block; margin-top: 4px; font-size: 7pt; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.72); }
+  .brand { display: flex; align-items: center; gap: 10px; } .brand .n { display: block; font-family: "Lato"; font-weight: 900; font-size: 19pt; color: #fff; line-height: 1; letter-spacing: -0.02em; } .brand .s { display: block; margin-top: 4px; font-size: 7pt; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.72); }
   .mark { display: inline-flex; align-items: center; flex: none; }
-  .brand .n.ink { color: var(--primary); } .brand .s.ink { color: var(--ink-3); }
+  .brand .n.ink, .brand .w.ink { color: var(--primary); } .brand .s.ink { color: var(--ink-3); }
+  .brand .n, .brand .w { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important; } .brand .n { font-weight: 700 !important; } .brand .w { display: block; color: #fff; font-size: 13pt; line-height: 1; }
   .divider { justify-content: center; }
   .divider h1 { font-size: 38pt; margin: 6px 0 18px; } .divider p.intro { color: rgba(255,255,255,.86); font-size: 12.5pt; max-width: 6in; margin: 0; }
   .divider ol { color: rgba(255,255,255,.86); columns: 2; font-size: 10pt; margin: 26px 0 0; padding-left: 18px; } .divider li { break-inside: avoid; margin: 3px 0; }
   .divider .note { margin-top: 22px; font-size: 9pt; color: rgba(255,255,255,.68); max-width: 6in; }
-  .divider .hivis, .cover .hivis { position: absolute; left: 0; right: 0; bottom: 0; }
+  .divider .spectrum, .cover .spectrum { position: absolute; left: 0; right: 0; bottom: 0; }
   .prose h1 { font-size: 24pt; margin-bottom: 12px; }
   .prose h2 { font-size: 13pt; margin: 16px 0 6px; letter-spacing: -0.01em; }
   .prose p { margin: 0 0 8px; }
   .prose ul.plain { margin: 0 0 8px; padding-left: 16px; } .prose ul.plain li { margin: 2px 0; }
   .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .card { border: 1px solid var(--line); border-radius: 8px; padding: 11px 13px; background: #fff; break-inside: avoid; }
+  .card { border: 1px solid var(--line); border-radius: 4px; padding: 11px 13px; background: #fff; break-inside: avoid; }
   .card h3 { margin-bottom: 5px; }
   .card ul { margin: 0; padding-left: 15px; } .card li { margin: 2px 0; font-size: 9.6pt; }
-  .evidence { border-left: 4px solid var(--primary); background: var(--bg); border-radius: 0 8px 8px 0; padding: 10px 14px 10px 30px; margin: 8px 0 10px; }
+  .evidence { border-left: 4px solid var(--primary); background: var(--bg); border-radius: 0 4px 4px 0; padding: 10px 14px 10px 30px; margin: 8px 0 10px; }
   .evidence li { margin: 3px 0; }
   .evidence code { font-size: 8.8pt; background: #fff; border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; }
   .src { font-size: 8pt; color: var(--ink-3); }
   .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 12px 0 6px; }
-  .stat { background: var(--deep); color: #fff; border-radius: 8px; padding: 12px 12px 11px; }
-  .stat b { display: block; font-family: "Encode Sans Semi Condensed"; font-weight: 800; font-size: 22pt; line-height: 1; color: #fff; border-left: 3px solid var(--hivis); padding-left: 8px; }
+  .stat { background: var(--deep); color: #fff; border-radius: 4px; padding: 12px 12px 11px; }
+  .stat b { display: block; font-family: "Lato"; font-weight: 900; font-size: 22pt; line-height: 1; color: #fff; border-left: 3px solid #fff; padding-left: 8px; }
   .stat span { display: block; margin-top: 8px; font-size: 8.5pt; color: rgba(255,255,255,.8); line-height: 1.3; }
   table.feat { width: 100%; border-collapse: collapse; font-size: 9.5pt; }
   table.feat th, table.feat td { border-bottom: 1px solid var(--line); padding: 8px 8px; text-align: left; vertical-align: top; }
@@ -279,7 +286,7 @@ const html = `<!doctype html><html lang="en-IE"><head><meta charset="utf-8"><tit
   .shot-head h2 { font-size: 16pt; } .url { font-family: Menlo, Consolas, monospace; font-size: 8pt; color: var(--ink-3); margin: 0; white-space: nowrap; }
   .bullets { margin: 0 0 7px; padding-left: 16px; font-size: 9.3pt; } .bullets li { margin: 1px 0; } .bullets li::marker { color: var(--primary); }
   figure { margin: 0 0 8px; display: block; text-align: center; }
-  figure img { display: block; margin: 0 auto; border: 1px solid var(--line); border-radius: 6px; }
+  figure img { display: block; margin: 0 auto; border: 1px solid var(--line); border-radius: 4px; }
   .cap { text-align: left; margin: 5px 0 0; font-size: 8.6pt; line-height: 1.35; color: var(--ink-2); border-left: 3px solid var(--primary); padding-left: 8px; }
   .cap .n { font-weight: 700; color: var(--ink-3); }
   .phones { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 12px; }
@@ -287,21 +294,26 @@ const html = `<!doctype html><html lang="en-IE"><head><meta charset="utf-8"><tit
   .phones img { width: 100%; border-radius: 14px; border: 7px solid var(--deep); }
   .phones figcaption { text-align: center; font-size: 9pt; color: var(--ink-2); margin-top: 6px; font-weight: 600; }
   .phone-notes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 14px; }
-  .phone-notes div { background: var(--bg); border-radius: 8px; padding: 9px 12px; font-size: 9pt; color: var(--ink-2); }
+  .phone-notes div { background: var(--bg); border-radius: 4px; padding: 9px 12px; font-size: 9pt; color: var(--ink-2); }
   .phone-notes b { display: block; color: var(--ink); font-size: 9.5pt; margin-bottom: 2px; }
   .price { display: grid; grid-template-columns: 1.45fr 1fr; gap: 14px; align-items: stretch; margin: 6px 0 4px; }
-  .price .big { background: var(--deep); color: #fff; border-radius: 8px; padding: 16px 18px; }
-  .price .big .amt { white-space: nowrap; font-family: "Encode Sans Semi Condensed"; font-weight: 800; font-size: 26pt; line-height: 1; color: #fff; } .price .big .amt small { font-size: 11pt; font-weight: 500; color: rgba(255,255,255,.75); }
+  .price .big { background: var(--deep); color: #fff; border-radius: 4px; padding: 16px 18px; }
+  .price .big .amt { white-space: nowrap; font-family: "Lato"; font-weight: 900; font-size: 26pt; line-height: 1; color: #fff; } .price .big .amt small { font-size: 11pt; font-weight: 500; color: rgba(255,255,255,.75); }
   .price .big p { color: rgba(255,255,255,.84); margin: 8px 0 0; font-size: 9.6pt; }
-  .price .year { border: 2px solid var(--primary); border-radius: 8px; padding: 14px 16px; background: var(--primary-soft); }
+  .price .year { border: 2px solid var(--primary); border-radius: 4px; padding: 14px 16px; background: var(--primary-soft); }
   .price .year div { display: flex; justify-content: space-between; gap: 8px; padding: 4px 0; border-bottom: 1px dotted #7fbcd0; font-size: 10pt; } .price .year div:last-child { border: 0; }
-  .price .year b { font-family: "Encode Sans Semi Condensed"; font-weight: 800; }
+  .price .year b { font-family: "Lato"; font-weight: 900; }
   .terms li { margin: 3px 0; font-size: 9.6pt; }
   .sla { width: 100%; border-collapse: collapse; font-size: 9pt; margin-top: 4px; } .sla td, .sla th { border-bottom: 1px solid var(--line); padding: 4px 6px; text-align: left; } .sla th { font-size: 7.8pt; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); background: var(--surface-2); }
   .weeks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 6px 0 10px; }
-  .week { border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; background: #fff; }
-  .week b { display: inline-block; font-family: "Encode Sans Semi Condensed"; font-weight: 800; font-size: 8.5pt; background: var(--ink); color: var(--bg); border-radius: 4px; padding: 3px 6px; margin-bottom: 5px; }
+  .week { border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px; background: #fff; }
+  .week b { display: inline-block; font-family: "Lato"; font-weight: 900; font-size: 8.5pt; background: var(--primary-text); color: #fff; border-radius: 4px; padding: 3px 6px; margin-bottom: 5px; }
   .week p { margin: 0; font-size: 9.5pt; }
+  .motion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; margin-top: 8px; }
+  .motion-grid figure { margin: 0; }
+  .motion-grid img { width: 100%; height: 1.72in; object-fit: cover; object-position: top center; border: 1px solid var(--line); border-radius: 4px; }
+  .motion-grid figcaption { font-size: 8.3pt; line-height: 1.32; color: var(--ink-2); margin-top: 4px; border-left: 3px solid var(--primary); padding-left: 7px; text-align: left; }
+  .motion-more { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 18px; margin: 10px 0 0; padding-left: 16px; font-size: 8.8pt; } .motion-more li::marker { color: var(--primary); }
   footer.foot { margin-top: auto; padding-top: 6px; font-size: 7.8pt; color: #7d8d93; display: flex; justify-content: space-between; border-top: 1px solid var(--line); align-items: center; } footer.foot .fl { display: inline-flex; align-items: center; gap: 6px; }
 </style></head><body>
 
@@ -317,7 +329,7 @@ const html = `<!doctype html><html lang="en-IE"><head><meta charset="utf-8"><tit
     <div><b>Prepared for</b>Alan Connolly and Conor Nolan<br>Allpro Security Services Ireland Ltd<br>12A Westlink Business Park<br>Oranmore, Co. Galway</div>
     <div><b>Prepared by</b>Keron Lewis, Code Canvas Consultants Ltd<br>Port of Spain · codecanvastt.com<br>info@codecanvastt.com</div>
   </div>
-  <div class="hivis"></div>
+  <div class="spectrum"></div>
 </section>
 
 <section class="page prose">
@@ -357,7 +369,7 @@ const html = `<!doctype html><html lang="en-IE"><head><meta charset="utf-8"><tit
   <h2>How a new starter flows</h2>
   <p>A security officer applies from a phone with a PSA licence number and expiry and ticks the shifts they can work. Expired licences are refused. HR moves them through phone screen and interview, records Garda vetting, right to work and the PSA register check, and only then can mark them hired, which creates their staff record. From then on the licence register warns HR 60 days before it lapses.</p>
   <h2>Content and imagery</h2>
-  <p>The service lines, mission and vision come from the company's own website; the founding year, registration number and offices from the same site and the company record. Nothing is invented: no clients, figures, accreditations, staff or testimonials. One photograph is the company's own; the others are licensed from Wikimedia Commons, credited on the site and labelled "Illustrative photo" until Allpro supplies its own. Clients, tickets, applicants and staff in these screenshots are clearly marked samples with fictitious names.</p>
+  <p>The service lines, mission and vision come from the company's own website; the founding year, registration number and offices from the same site and the company record. Nothing is invented: no clients, figures, accreditations, staff or testimonials. Three photographs come from the company's own website (to be confirmed for reuse); the others are licensed from Wikimedia Commons, credited on the site and labelled "Illustrative photo" until Allpro supplies its own. Clients, tickets, applicants and staff in these screenshots are clearly marked samples with fictitious names.</p>
   ${foot()}
 </section>
 
@@ -368,7 +380,7 @@ ${SECTIONS.map((sec) => `
   <p class="intro">${esc(sec.intro)}</p>
   <ol>${sec.screens.map((s) => `<li>${esc(s[1])}</li>`).join('')}</ol>
   <p class="note">Screens are from the working demo at 1440 pixels wide (back office at 1280). Clients, tickets, applicants, staff names and figures are sample data.</p>
-  <div class="hivis"></div>
+  <div class="spectrum"></div>
 </section>
 ${sec.screens.map((s) => screenPages(sec, s)).join('')}
 `).join('')}
@@ -387,6 +399,22 @@ ${sec.screens.map((s) => screenPages(sec, s)).join('')}
   ${notes([['No CV needed', 'A phone number and the shifts they can work are enough to apply.'], ['At risk first', 'The overview opens on tickets close to breaching the SLA.'], ['One tap to call', 'Call or email the client contact or applicant from the record.']])}
   ${foot()}
 </section>
+
+${MOTION_ORDER.length ? `
+<section class="page">
+  <header class="shot-head"><div><p class="eyebrow">Motion and interaction</p><h2>A site that feels current</h2></div><p class="url">stills from the demo</p></header>
+  <p style="margin:0 0 2px; font-size:9.6pt">Small, purposeful movement shows how the company works: its four regions, its eight services, its response times. Every effect respects the visitor's "reduce motion" setting, and with JavaScript switched off all content is still there; nothing hides behind an animation.</p>
+  <div class="motion-grid">${MOTION_ORDER.map((k) => `<figure><img src="${img(MOTION[k].file)}" alt=""><figcaption>${esc(MOTION[k].caption)}</figcaption></figure>`).join('')}</div>
+  <ul class="motion-more">
+    <li>Founding year, offices and service lines count up once, when seen</li>
+    <li>A marquee of the old site's own service taglines, paused on hover or focus</li>
+    <li>A thin reading-progress bar across the top of every page</li>
+    <li>The light/dark switch grows the new theme as a circle from the button</li>
+    <li>Pages cross-fade into each other, and sections rise gently into view</li>
+    <li>Built with CSS and a few lines of script: no animation library, nothing slowing the page</li>
+  </ul>
+  ${foot()}
+</section>` : ''}
 
 <section class="page prose">
   ${plate('04', 'Technology, hosting & security')}

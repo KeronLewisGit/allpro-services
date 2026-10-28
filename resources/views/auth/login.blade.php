@@ -5,7 +5,7 @@
     <title>Sign in · Allpro back office</title>
     <meta name="robots" content="noindex">
 </head>
-<body class="admin siteplan grid min-h-screen place-items-center bg-deep-900 px-4 py-10 text-white">
+<body class="admin grid min-h-screen place-items-center bg-deep-900 px-4 py-10 text-white">
     <main class="w-full max-w-sm">
         <a href="{{ route('home') }}" class="mx-auto mb-8 flex min-h-11 w-max items-center"><x-logo tone="light" /></a>
         <form method="POST" action="{{ route('login') }}" class="a-card space-y-5 p-6 text-ink sm:p-8">
