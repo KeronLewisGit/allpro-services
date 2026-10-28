@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" fill="none" stroke="#000">
+  <!-- Outer walls with door openings -->
+  <path stroke-width="6" d="M20 20h250m40 0h310v170m0 40v170H360m-40 0H20V250m0-40V20"/>
+  <!-- Internal walls -->
+  <path stroke-width="3.5" d="M220 20v110m0 40v80h-80m-40 0H20M220 250v150M400 20v90m0 40v100H300m-40 0h-40M400 250v60m0 40v50M400 200h100m40 0h80"/>
+  <!-- Stairs -->
+  <path stroke-width="2" d="M450 270h120M450 285h120M450 300h120M450 315h120M450 330h120M450 345h120M450 260v100h120V260"/>
+  <!-- Desks and fixtures -->
+  <path stroke-width="2" d="M60 60h60v30H60zM60 120h60v30H60zM260 60h100v40H260zM260 290h90v60h-90zM90 300h70v70H90zM470 60h120v80H470z"/>
+  <!-- Patrol route -->
+  <path stroke-width="3" stroke-dasharray="10 9" stroke-linecap="round" d="M290 410V380h-60v-90H170v-60H60V180h120v-90h70v-50h120v90h60v90h150v-70"/>
+  <!-- Checkpoints -->
+  <g stroke-width="3">
+    <circle cx="60" cy="180" r="11"/><circle cx="250" cy="40" r="11"/><circle cx="430" cy="130" r="11"/><circle cx="580" cy="150" r="11"/><circle cx="230" cy="290" r="11"/>
+  </g>
+  <!-- Door swings -->
+  <path stroke-width="2" d="M270 20a40 40 0 0 0 40 40M620 190a40 40 0 0 0-40 40M220 130a40 40 0 0 1 40 40M400 110a40 40 0 0 0-40 40"/>
+</svg>
